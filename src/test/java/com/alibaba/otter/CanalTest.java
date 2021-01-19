@@ -99,4 +99,5 @@ public class CanalTest {
             System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
         }
     }
+
 }

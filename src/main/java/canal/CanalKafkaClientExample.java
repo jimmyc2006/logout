@@ -12,28 +12,28 @@ import java.util.concurrent.TimeUnit;
 
 public class CanalKafkaClientExample {
 
-    protected final static Logger logger  = LoggerFactory.getLogger(CanalKafkaClientExample.class);
+    protected final static Logger logger = LoggerFactory.getLogger(CanalKafkaClientExample.class);
 
     private KafkaCanalConnector connector;
 
-    private static volatile boolean         running = false;
+    private static volatile boolean running = false;
 
-    private Thread                          thread  = null;
+    private Thread thread = null;
 
     private Thread.UncaughtExceptionHandler handler = (t, e) -> logger.error("parse events has an error", e);
 
-    public CanalKafkaClientExample(String zkServers, String servers, String topic, Integer partition, String groupId){
+    public CanalKafkaClientExample(String servers, String topic, Integer partition, String groupId) {
         connector = new KafkaCanalConnector(servers, topic, partition, groupId, null, false);
     }
 
     public static void main(String[] args) {
-        String  topic     = "sw_example";
-        String  groupId   = "888";
+        String topic = "cityos_metadata_fulltext";
+        String groupId = "g_cityos_metadata_online";
         try {
-            final CanalKafkaClientExample kafkaCanalClientExample = new CanalKafkaClientExample("zk-1.cityos.local:2181,zk-2.cityos.local:2181,zk-3.cityos.local:2181",
-                    "kafka-1.cityos.local:9092,kafka-2.cityos.local:9092,kafka-3.cityos.local:9092",
+            final CanalKafkaClientExample kafkaCanalClientExample = new CanalKafkaClientExample(
+                    "10.241.241.17:9092,10.241.241.18:9092,10.241.241.32:9092",
                     topic,
-                    0,
+                    null,
                     groupId);
             logger.info("## start the kafka consumer: {}-{}", topic, groupId);
             kafkaCanalClientExample.start();
@@ -106,7 +106,7 @@ public class CanalKafkaClientExample {
                                 // }
                             } else {
                                 // printSummary(message, batchId, size);
-                                 printEntry(message.getEntries());
+                                printEntry(message.getEntries());
 //                                logger.info(message.toString());
                             }
                         }
@@ -123,10 +123,10 @@ public class CanalKafkaClientExample {
                 logger.error(e.getMessage(), e);
             }
         }
-
         connector.unsubscribe();
         connector.disconnect();
     }
+
     private static void printEntry(List<CanalEntry.Entry> entrys) {
         for (CanalEntry.Entry entry : entrys) {
             System.out.println("type:" + entry.getEntryType());

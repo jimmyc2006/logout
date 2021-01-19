@@ -1,5 +1,6 @@
 package canal;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.otter.canal.client.kafka.KafkaCanalConnector;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.FlatMessage;
@@ -28,7 +29,7 @@ public class CanalKafkaClientExample2 {
     }
 
     public static void main(String[] args) {
-        String  topic     = "sw_example";
+        String  topic     = "sw-example-22";
         String  groupId   = "888";
         try {
             final CanalKafkaClientExample2 kafkaCanalClientExample = new CanalKafkaClientExample2("zk-1.cityos.local:2181,zk-2.cityos.local:2181,zk-3.cityos.local:2181",
@@ -98,6 +99,7 @@ public class CanalKafkaClientExample2 {
                             continue;
                         }
                         for (FlatMessage message : messages) {
+                            System.out.println(JSON.toJSONString(message));
                         }
                         connector.ack(); // 提交确认
                     } catch (Exception e) {

@@ -118,7 +118,7 @@
 </appender>
 
 
-    <root level="${LOG_LEVEL}">
+    <root level="info">
 
     <appender-ref ref="ALL_LOG"/>
 
